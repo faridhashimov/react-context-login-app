@@ -1,0 +1,72 @@
+.appHeader-container {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    width: 95%;
+    height: 100%;
+}
+
+.logo {
+    font-size: 22px;
+    color: #000B84;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+}
+
+.nav li {
+    padding: 0px 10px;
+    cursor: pointer;
+    transition: all .3s ease-in;
+    border-radius: 5px;
+}
+
+.nav li:hover {
+    background-color: rgba(128, 128, 128, 0.4);
+    color: #fff;
+    transition: all .2s ease-in;
+}
+
+.search {
+    width: 30%;
+    padding: 5px 20px;
+    border-radius: 10px;
+    border: 1.2px solid gray;
+}
+
+.search:focus {
+    outline: none;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0px 20px;
+}

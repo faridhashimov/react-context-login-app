@@ -1,0 +1,40 @@
+.rightBar {
+    flex: 1;
+    border-left: 1px solid lightgray;
+    height: 100%;
+}
+
+.rightBar-main {
+    padding: 15px 25px;
+}
+
+.rightBar-box__title {
+    font-size: 15px;
+    font-weight: 400;
+    color: gray;
+    text-align: start;
+    margin-bottom: 5px;
+}
+
+.rightBar-box__image {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.rightBar-box__image img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.rightBar-btn {
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: rgb(179, 179, 179);
+    border: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
