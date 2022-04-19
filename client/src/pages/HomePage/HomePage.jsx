@@ -13,6 +13,7 @@ import noavatar from '../../assets/no_avatar.jpeg'
 import app from '../../firbase'
 
 const HomePage = () => {
+    let imageURL = ''
     const username = useRef()
     const password = useRef()
     const [file, setFile] = useState(null)
@@ -21,52 +22,61 @@ const HomePage = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const fileName = new Date().getTime() + file.name
-        const storage = getStorage(app)
-        const storageRef = ref(storage, fileName)
+        if (file) {
+            const fileName = new Date().getTime() + file.name
+            const storage = getStorage(app)
+            const storageRef = ref(storage, fileName)
 
-        const uploadTask = uploadBytesResumable(storageRef, file)
+            const uploadTask = uploadBytesResumable(storageRef, file)
 
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                console.log('Upload is ' + progress + '% done')
-                switch (snapshot.state) {
-                    case 'paused':
-                        console.log('Upload is paused')
-                        break
-                    case 'running':
-                        console.log('Upload is running')
-                        break
-                    default:
-                }
-            },
-            (error) => {
-                // Handle unsuccessful uploads
-            },
-            () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    updateCall(
-                        user._id,
-                        {
-                            username: username.current.value,
-                            password: password.current.value,
-                            img: downloadURL,
-                        },
-                        dispatch
+            // Register three observers:
+            // 1. 'state_changed' observer, called any time the state changes
+            // 2. Error observer, called on failure
+            // 3. Completion observer, called on successful completion
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    console.log('Upload is ' + progress + '% done')
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused')
+                            break
+                        case 'running':
+                            console.log('Upload is running')
+                            break
+                        default:
+                    }
+                },
+                (error) => {
+                    // Handle unsuccessful uploads
+                },
+                () => {
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                        (downloadURL) => {
+                            imageURL = downloadURL
+                        }
                     )
-                })
-            }
+                }
+            )
+        }
+        updateCall(
+            user._id,
+            {
+                username: username.current.value
+                    ? username.current.value
+                    : user.username,
+                password: password.current.value
+                    ? password.current.value
+                    : user.password,
+                img: file ? imageURL : user.img,
+            },
+            dispatch
         )
     }
 
@@ -79,7 +89,7 @@ const HomePage = () => {
                     <header className="sectionCenter-header">
                         <h1 className="homepage-title">Update Your Account</h1>
                         <p className="homepage-info">
-                            Deleting cannot be undone{' '}
+                            Deleting cannot be undone
                             <span>{user.username}</span>! You should confirm
                             your password to delete your account.
                         </p>

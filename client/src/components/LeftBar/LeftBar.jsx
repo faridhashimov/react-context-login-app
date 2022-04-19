@@ -12,10 +12,19 @@ import {
     FaSignOutAlt,
     FaUserFriends,
 } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext'
 import './LeftBar.css'
 
 const LeftBar = () => {
+    let navigate = useNavigate()
+    const { dispatch } = useContext(AuthContext)
+
+    const handleOut = () => {
+        localStorage.removeItem('user')
+        dispatch({ type: 'LOGOUT' })
+        navigate('./login', { replace: true })
+    }
     const { user } = useContext(AuthContext)
     return (
         <section className="leftBar">
@@ -61,7 +70,7 @@ const LeftBar = () => {
                         <FaCog />
                         Settings
                     </li>
-                    <li className="leftBar-link">
+                    <li onClick={handleOut} className="leftBar-link">
                         <FaSignOutAlt />
                         Logout ({user.username})
                     </li>
